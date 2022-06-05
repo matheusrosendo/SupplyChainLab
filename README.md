@@ -1,2 +1,3 @@
-# blockchaindev
-Blockchain prototypes 
+# SupplyChainLab
+Blockchain prototype - Supplay Chain Lab
+
