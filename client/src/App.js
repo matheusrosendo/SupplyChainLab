@@ -213,4 +213,5 @@ class App extends Component {
   }
 }
 
+//exporta App
 export default App;
