@@ -1,1 +1,2 @@
 arquivo somente na branch 1
+novas alterações aqui no branch1
