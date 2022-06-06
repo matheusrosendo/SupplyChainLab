@@ -30,6 +30,9 @@ class App extends Component {
 
       //Set actual state  
       this.setState({ loaded:true, itemManagerInstance:this.itemManagerInstance });
+      
+      //atualiza tabela com itens do contrato em questao
+      await this.fillTableItems();
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -81,8 +84,42 @@ class App extends Component {
           infoSpan.innerHTML = "nada retornado ainda";
       }
       self.atualizaHash(evt.transactionHash); 
+      self.fillTableItems();
       console.log(evt);
     });
+  }
+
+  fillTableItems = async () => {
+     //let address = ItemManagerContract.networks[networkId].address;
+     let createdItems = document.getElementById("createdItems");
+     let indexAtual = await this.itemManagerInstance.methods.sv_itemIndex().call();
+     
+     let tabela = "<table data-vertable='ver1'><tr><th>Item </th><th>Price</th><th>State</th><th>Adress</th></tr>";
+     for(let i = 0; i < indexAtual; i++){
+        let item = await this.itemManagerInstance.methods.sv_items(i).call();
+        tabela += "<tr><td>"+item._identifier+"</td><td>"+item._itemPrice+"</td><td>"+this.getState(item._state)+"</td><td>"+item._item+"</td></tr>";
+     }
+     tabela += "</table>"
+     createdItems.innerHTML = tabela;
+  }
+
+  getState = (indexState) =>{
+    let status = "";
+    switch (parseInt(indexState)) {
+      case 0: 
+        status = "Created";
+      break;
+      case 1: 
+        status = "Paid";
+      break;
+      case 2: 
+        status = "Delivered";
+      break;
+      default: 
+        status = "Error";
+      break;
+    }
+    return status;
   }
 
   /**
@@ -140,26 +177,36 @@ class App extends Component {
     return (
       <div>
         <span id="carteira" className="plaintext">Conected wallet: {this.accounts[0]}</span>
-        <div className="warning" id="info"> <br></br> </div>
-        <div className="warning" id="transaction"> <br></br></div>
-        <div className="form">
+          <div className="warning" id="info"> <br></br> </div>
+          <div className="warning" id="transaction"> <br></br></div>
+        <div className="container">
           
-          <div className="title">Event Trigger / Supply chain lab!</div>        
-          <div className="subtitle">Add Items</div>
-          
-          <div className="input-container ic1">
-            <input id="firstname" className="input" type="text" placeholder=" "  name="cost" value={this.state.cost} onChange={this.handleInputChange} />
-            <div className="cut"></div>
-            <label className="placeholder">Cost in wei</label>
+          <div className="one">
+            <div className="form">
+              
+              <div className="title">Event Trigger / Supply chain lab!</div>        
+              <div className="subtitle">Add Items</div>
+              
+              <div className="input-container ic1">
+                <input id="firstname" className="input" type="text" placeholder=" "  name="cost" value={this.state.cost} onChange={this.handleInputChange} />
+                <div className="cut"></div>
+                <label className="placeholder">Cost in wei</label>
+              </div>
+              <div className="input-container ic2">
+                <input id="lastname" className="input" type="text" placeholder=" " name="itemName" value={this.state.itemName} onChange={this.handleInputChange}/>
+                <div className="cut"></div>
+                <label  className="placeholder">Item Identifier</label>
+              </div>
+                <button type="button" className="submit" id="botaoCreate" onClick={this.handleSubmitCreate}>Create new item</button>
+                <button type="button" className="submitApagado" id="botaoPagar"  onClick={this.handleSubmitPay}>Pagar</button>
+                <button type="button" className="submitApagado" id="botaoEnviar"  onClick={this.handleSubmitDeliver}>Enviar</button>
+            </div>
           </div>
-          <div className="input-container ic2">
-            <input id="lastname" className="input" type="text" placeholder=" " name="itemName" value={this.state.itemName} onChange={this.handleInputChange}/>
-            <div className="cut"></div>
-            <label  className="placeholder">Item Identifier</label>
+          <div className="two">
+            <div className="table100 ver1 m-b-110" id="createdItems"> 
+
+            </div>
           </div>
-            <button type="button" className="submit" id="botaoCreate" onClick={this.handleSubmitCreate}>Create new item</button>
-            <button type="button" className="submitApagado" id="botaoPagar"  onClick={this.handleSubmitPay}>Pagar</button>
-            <button type="button" className="submitApagado" id="botaoEnviar"  onClick={this.handleSubmitDeliver}>Enviar</button>
         </div>
       </div>
     );

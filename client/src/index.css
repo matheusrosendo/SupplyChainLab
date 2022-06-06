@@ -4,13 +4,6 @@ code {
     monospace;
 }
 
-body {
-  align-items: center;
-  background-color: #000;
-  display: flex;
-  justify-content: center;
-  height: 100vh;
-}
 
 .form {
   background-color: #15172b;
@@ -23,7 +16,7 @@ body {
 
 .title {
   color: #eee;
-  font-family: sans-serif;
+  font-family: Montserrat-Regular;
   font-size: 25px;
   font-weight: 600;
   margin-top: 30px;
@@ -31,23 +24,24 @@ body {
 
 .subtitle {
   color: #eee;
-  font-family: sans-serif;
+  font-family: Montserrat-Regular;
   font-size: 16px;
   font-weight: 600;
   margin-top: 10px;
 }
 
 .plaintext {
-  color: #eee;
-  font-family: sans-serif;
+  color: rgba(160, 73, 73, 0.329);
+  font-family: Montserrat-Regular;
   font-size: 13px;
   font-weight: 600;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .warning {
-  color: rgb(238, 210, 52);
-  font-family: sans-serif;
+  color: rgba(18, 48, 145, 0.534);
+  font-family: Montserrat-Regular;
   font-size: 11px;
   font-weight: 600;
   margin-top: 5px;
@@ -103,7 +97,7 @@ body {
 
 .placeholder {
   color: #65657b;
-  font-family: sans-serif;
+  font-family: Montserrat-Regular;
   left: 20px;
   line-height: 14px;
   pointer-events: none;
@@ -160,3 +154,72 @@ body {
 .submit:active {
   background-color: #06b;
 }
+
+
+.container {
+  display: flex;
+}
+
+.one {
+  flex: 0 0 50%;
+}
+
+.two {
+  flex: 1;
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ Table ]*/
+table {
+  width: 100%;
+  background-color: #fff;
+  }
+  th, td {
+  font-weight: unset;
+  padding-right: 10px;
+  }
+  .column100 {
+  width: 130px;
+  padding-left: 25px;
+  }
+  .column100.column1 {
+  width: 265px;
+  padding-left: 42px;
+  }
+  .row100.head th {
+  padding-top: 24px;
+  padding-bottom: 20px;
+  }
+  .row100 td {
+  padding-top: 18px;
+  padding-bottom: 14px;
+  }
+  /*==================================================================
+  [ Ver1 ]*/
+  .table100.ver1 td {
+  font-family: Montserrat-Regular;
+  font-size: 14px;
+  color: #808080;
+  line-height: 1.4;
+  }
+  .table100.ver1 th {
+  font-family: Montserrat-Medium;
+   font-size: 12px;
+  color: #fff;
+  line-height: 1.4;
+  text-transform: uppercase;
+  background-color: #36304a;
+  }
+  .table100.ver1 .row100:hover {
+  background-color: #f2f2f2;
+  }
+  .table100.ver1 .hov-column-ver1 {
+  background-color: #f2f2f2;
+  }
+  .table100.ver1 .hov-column-head-ver1 {
+  background-color: #484848;
+  }
+  .table100.ver1 .row100 td:hover {
+  background-color: #6c7ae0;
+  color: #fff;
+  }
