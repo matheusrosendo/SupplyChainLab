@@ -25,7 +25,7 @@ contract("ItemManager", accounts => {
         assert.equal(item._identifier, itemName, "Idetificador diferente do inserido anteriormente")
         
         //garante que o item price seja o mesmo valor informado
-        lastItemPrice = item.itemPrice;
+        lastItemPrice = item._itemPrice;
         assert.equal(lastItemPrice, itemPrice, "Preço diferente do inserido anteriormente: "+lastItemPrice);
         
     });
@@ -72,7 +72,7 @@ contract("ItemManager", accounts => {
         assert.equal(item._identifier, itemName, "Idetificador diferente do inserido anteriormente")
         
         //garante que o item price seja o mesmo valor informado
-        lastItemPrice = item.itemPrice;
+        lastItemPrice = item._itemPrice;
         assert.equal(lastItemPrice, itemPrice, "Preço diferente do inserido anteriormente: "+lastItemPrice);
         
     });

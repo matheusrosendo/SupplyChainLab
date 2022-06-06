@@ -12,7 +12,7 @@ contract ItemManager is Ownable {
 
     struct S_item {
         string _identifier;
-        uint itemPrice;
+        uint _itemPrice;
         SupplyChainState _state;
         Item _item;
     }
@@ -31,7 +31,7 @@ contract ItemManager is Ownable {
 
     function triggerPayment(uint _itemIndex) public payable {
         require(sv_items[_itemIndex]._state == SupplyChainState.Created, "Erro: item ja foi pago ou entregue!");
-        require(sv_items[_itemIndex].itemPrice == msg.value, "Erro: valor incorreto!");
+        require(sv_items[_itemIndex]._itemPrice == msg.value, "Erro: valor incorreto!");
         sv_items[_itemIndex]._state = SupplyChainState.Paid;
         emit SupplyChainStep(_itemIndex, uint(sv_items[_itemIndex]._state), address(sv_items[_itemIndex]._item));
     }

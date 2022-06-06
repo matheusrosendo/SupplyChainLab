@@ -213,4 +213,6 @@ class App extends Component {
   }
 }
 
+//exporta App
+//agora sim commit no branch 1
 export default App;
