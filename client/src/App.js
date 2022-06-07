@@ -4,12 +4,20 @@ import "./App.css";
 import ItemManagerContract from "./contracts/ItemManager.json";
 
 class App extends Component {
-  state = {cost: 0, itemName: "exemploItem1", loaded:false, itemManagerInstance:0};
+  state = {cost: 1000, itemName: "exampleItem1", loaded:false, itemManagerInstance:0};
   createdItem = {price: 0, addressItem:"", index:0};
+  
+  //put the instance in a window to be acessed externaly
+  constructor(props) {
+      super(props);
+      window.reactInstance = this;
+  }
+
   
   componentDidMount = async () => {
     try {
       
+
       // Get network provider and web3 instance.
       this.web3 = await getWeb3();
 
@@ -33,6 +41,7 @@ class App extends Component {
       
       //atualiza tabela com itens do contrato em questao
       await this.fillTableItems();
+      
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -42,15 +51,10 @@ class App extends Component {
     }
   };
 
-  //tentativa de alteração de contas
- /*  changeAccountListener = () =>{
-    //caso usuario mude a conta na metamask atualiza web3 e accounts
-    window.ethereum.on('accountsChanged', async function (accounts) {
-      //this.accounts = accounts; 
-      console.log(accounts[0]);
-    })
-  } */
-  
+  testeAlert = () => {
+    alert("deuboa");
+  }
+
   /**
    * Escutador do event do tipo SupplyChainStep, chamado a cada novo emit automaticamente
    */
@@ -63,25 +67,18 @@ class App extends Component {
       //verifica o retorno do evento 0 = Created, 1 = Paid, 2 = Delivered
       switch (parseInt(evt.returnValues[1])) {
         case 0: 
-          infoSpan.innerHTML = "Item Criado: "+item._identifier+ " Faça o pagamento";
+          infoSpan.innerHTML = "Item created: "+item._identifier+ ". Now pay it!";
           //atualiza dados do item recem criado apartir do event emitido
           self.createdItem = {price:self.state.cost, addressItem:evt.returnValues[2], index: evt.returnValues._itemIndex};
-          document.getElementById("botaoPagar").style.visibility = "visible";
-          document.getElementById("botaoCreate").style.visibility = "hidden";   
         break;
         case 1:
-          infoSpan.innerHTML = "Item Pago: "+item._identifier+ " Faça o envio";
-          document.getElementById("botaoEnviar").style.visibility = "visible"; 
-          document.getElementById("botaoPagar").style.visibility = "hidden";   
+          infoSpan.innerHTML = "Item paid: "+item._identifier+ ". Now deliver it!";
         break;
         case 2:
-          infoSpan.innerHTML = "Item Enviado: "+item._identifier;
-          document.getElementById("botaoEnviar").style.visibility = "hidden"; 
-          document.getElementById("botaoPagar").style.visibility = "hidden";
-          document.getElementById("botaoCreate").style.visibility = "visible";    
+          infoSpan.innerHTML = "Item delivered: "+item._identifier+ ". Well done!";  
         break;
         default:
-          infoSpan.innerHTML = "nada retornado ainda";
+          infoSpan.innerHTML = "error: no returned status";
       }
       self.atualizaHash(evt.transactionHash); 
       self.fillTableItems();
@@ -89,18 +86,37 @@ class App extends Component {
     });
   }
 
+ 
+
   fillTableItems = async () => {
-     //let address = ItemManagerContract.networks[networkId].address;
-     let createdItems = document.getElementById("createdItems");
-     let indexAtual = await this.itemManagerInstance.methods.sv_itemIndex().call();
-     
-     let tabela = "<table data-vertable='ver1'><tr><th>Item </th><th>Price</th><th>State</th><th>Adress</th></tr>";
-     for(let i = 0; i < indexAtual; i++){
-        let item = await this.itemManagerInstance.methods.sv_items(i).call();
-        tabela += "<tr><td>"+item._identifier+"</td><td>"+item._itemPrice+"</td><td>"+this.getState(item._state)+"</td><td>"+item._item+"</td></tr>";
-     }
-     tabela += "</table>"
-     createdItems.innerHTML = tabela;
+    //let address = ItemManagerContract.networks[networkId].address;
+    let createdItems = document.getElementById("createdItems");
+    let indexAtual = await this.itemManagerInstance.methods.sv_itemIndex().call();
+    
+    let tabela = "<table data-vertable='ver1'><tr><th>Item </th><th>Price</th><th>State</th><th>Adress</th><th>Action</th></tr>";
+    for(let i = 0; i < indexAtual; i++){
+       let item = await this.itemManagerInstance.methods.sv_items(i).call();
+       let actionButton = this.mountButton(i, item);
+       tabela += "<tr><td>"+item._identifier+"</td><td>"+item._itemPrice+"</td><td>"+this.getState(item._state)+"</td><td>"+item._item+"</td><td>"+actionButton+"</td></tr>";
+    }
+    tabela += "</table>"
+    createdItems.innerHTML = tabela;
+ }
+
+  mountButton = (indexItem, _item) =>{
+    let button = "";
+    switch (parseInt(_item._state)) {
+      case 0: 
+        button = "<button onclick=\"window.reactInstance.handleItemPay('"+_item._item+"', "+_item._itemPrice+")\">Pay</button>";
+      break;
+      case 1: 
+      button = "<button onclick=\"window.reactInstance.handleItemDeliver("+indexItem+")\">Deliver</button>";
+      break;
+      default: 
+        button = " ";
+      break;
+    }
+    return button;
   }
 
   getState = (indexState) =>{
@@ -154,12 +170,22 @@ class App extends Component {
     this.atualizaHash(result.transactionHash);
   }
 
+  handleItemPay = async(_address, _price) => {
+    let result = await this.web3.eth.sendTransaction({from: this.accounts[0], to: _address, value: _price });
+    this.atualizaHash(result.transactionHash);
+  }
+
   
   /**
    * Ação do botao enviar
    */
   handleSubmitDeliver = async() => {
     let result = await this.itemManagerInstance.methods.triggerDelivery(this.createdItem.index).send({from: this.accounts[0]});
+    this.atualizaHash(result.transactionHash);
+  }
+
+  handleItemDeliver = async(_indexItem) => {
+    let result = await this.itemManagerInstance.methods.triggerDelivery(_indexItem).send({from: this.accounts[0]});
     this.atualizaHash(result.transactionHash);
   }
 
@@ -170,7 +196,13 @@ class App extends Component {
     document.getElementById("transaction").innerHTML = "Hash Transação = " + hash;
   }
 
-  render() {
+  
+
+  render =  () =>{
+    
+    console.log("table items");
+    console.log(this.tableItems);
+
     if (!this.state.loaded) {
       return <div className="plaintext">Loading Web3, accounts, and contract...</div>;
     }
@@ -198,15 +230,15 @@ class App extends Component {
                 <label  className="placeholder">Item Identifier</label>
               </div>
                 <button type="button" className="submit" id="botaoCreate" onClick={this.handleSubmitCreate}>Create new item</button>
-                <button type="button" className="submitApagado" id="botaoPagar"  onClick={this.handleSubmitPay}>Pagar</button>
-                <button type="button" className="submitApagado" id="botaoEnviar"  onClick={this.handleSubmitDeliver}>Enviar</button>
             </div>
           </div>
           <div className="two">
             <div className="table100 ver1 m-b-110" id="createdItems"> 
 
             </div>
+            
           </div>
+          
         </div>
       </div>
     );

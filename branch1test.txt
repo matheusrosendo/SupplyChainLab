@@ -1,4 +1,0 @@
-1 - arquivo somente na branch 1
-2 - novas alterações aqui no branch1
-3 - versao final do arquivo a ser incorporado na main
-4 - Conflitos resolvidos

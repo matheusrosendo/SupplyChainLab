@@ -9,7 +9,7 @@ code {
   background-color: #15172b;
   border-radius: 20px;
   box-sizing: border-box;
-  height: 600px;
+  height: 420px;
   padding: 20px;
   width: 500px;
 }
@@ -42,7 +42,7 @@ code {
 .warning {
   color: rgba(18, 48, 145, 0.534);
   font-family: Montserrat-Regular;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   margin-top: 5px;
 }
@@ -133,22 +133,6 @@ code {
   outline: 0;
   text-align: center;
   width: 100%;
-}
-
-.submitApagado {
-  background-color: #08d;
-  border-radius: 12px;
-  border: 0;
-  box-sizing: border-box;
-  color: #eee;
-  cursor: pointer;
-  font-size: 18px;
-  height: 50px;
-  margin-top: 38px;
-  outline: 0;
-  text-align: center;
-  width: 100%;
-  visibility: hidden;
 }
 
 .submit:active {

@@ -56,7 +56,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -69,7 +70,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -103,7 +105,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -147,7 +150,8 @@
       "name": "triggerPayment",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -167,7 +171,8 @@
       "name": "renounceOwnership",
       "outputs": [],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.14+commit.80d49f37\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_itemIndex\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_step\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"SupplyChainStep\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_identifier\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_itemPrice\",\"type\":\"uint256\"}],\"name\":\"createItem\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"sv_itemIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"sv_items\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"_identifier\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_itemPrice\",\"type\":\"uint256\"},{\"internalType\":\"enum ItemManager.SupplyChainState\",\"name\":\"_state\",\"type\":\"uint8\"},{\"internalType\":\"contract Item\",\"name\":\"_item\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_itemIndex\",\"type\":\"uint256\"}],\"name\":\"triggerDelivery\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_itemIndex\",\"type\":\"uint256\"}],\"name\":\"triggerPayment\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ItemManager.sol\":\"ItemManager\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/client/node_modules/@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0x24e0364e503a9bbde94c715d26573a76f14cd2a202d45f96f52134ab806b67b9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e12cbaa7378fd9b62280e4e1d164bedcb4399ce238f5f98fc0eefb7e50577981\",\"dweb:/ipfs/QmXRoFGUgfsaRkoPT5bxNMtSayKTQ8GZATLPXf69HcRA51\"]},\"project:/client/node_modules/@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"project:/contracts/Item.sol\":{\"keccak256\":\"0x4b80e9f8bf30c65068ab450af4b82ae3b091fc22a25e456e51b25da95ccb50c6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fd33f44a100be0d9db030bc9312f1a091e97088a41f2dbba8ee43fcae0a0049f\",\"dweb:/ipfs/QmcAapD4cS1RF2KH3HYZQsGgfyD6Zz4uTd1nEZiq2vJFZf\"]},\"project:/contracts/ItemManager.sol\":{\"keccak256\":\"0x571d3a6ec992f0fe2ba7bb7243b06ba471a67d76e155ab795233ebec2f824fc8\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a92e663c6ff09c43f41793fc10446726151023f9fbca02634469b270c84e0e3e\",\"dweb:/ipfs/QmX9w6UMeXts37S13iYJQB7s61vExCXmy2hbW811uCe8A3\"]}},\"version\":1}",
@@ -10341,12 +10346,13 @@
         }
       },
       "links": {},
-      "address": "0x9760ae47f8F29065Be839B683FCEaA438fAc29E2",
-      "transactionHash": "0xaf03359646828aaa867648f4fab0ebd127c5ed54727f89587f78379fa8526f36"
+      "address": "0x6112BB7C78e7731528f6Ce04Fb7b4916363866CE",
+      "transactionHash": "0x53e569e0a6e1e6a2d0eac01a06a074a70cb38c68714428665d4e41b249c79a1a"
     }
   },
   "schemaVersion": "3.4.7",
-  "updatedAt": "2022-06-06T01:09:49.883Z",
+  "updatedAt": "2022-06-06T04:29:53.723Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {
