@@ -17,7 +17,6 @@ class App extends Component {
   componentDidMount = async () => {
     try {
       
-
       // Get network provider and web3 instance.
       this.web3 = await getWeb3();
 
@@ -39,7 +38,7 @@ class App extends Component {
       //Set actual state  
       this.setState({ loaded:true, itemManagerInstance:this.itemManagerInstance });
       
-      //atualiza tabela com itens do contrato em questao
+      //updates table items
       await this.fillTableItems();
       
     } catch (error) {
@@ -51,12 +50,9 @@ class App extends Component {
     }
   };
 
-  testeAlert = () => {
-    alert("deuboa");
-  }
-
+ 
   /**
-   * Escutador do event do tipo SupplyChainStep, chamado a cada novo emit automaticamente
+   * Listener of the events typed SupplyChainStep, called automatically every new emit is done
    */
   listenToContractEvent = () => {
     let self = this;
@@ -64,11 +60,11 @@ class App extends Component {
       let infoSpan = document.getElementById("info");
       let item = await self.itemManagerInstance.methods.sv_items(evt.returnValues._itemIndex).call();
       
-      //verifica o retorno do evento 0 = Created, 1 = Paid, 2 = Delivered
+      //verify return = Created, 1 = Paid, 2 = Delivered
       switch (parseInt(evt.returnValues[1])) {
         case 0: 
           infoSpan.innerHTML = "Item created: "+item._identifier+ ". Now pay it!";
-          //atualiza dados do item recem criado apartir do event emitido
+          //updates created Item data according to emit values
           self.createdItem = {price:self.state.cost, addressItem:evt.returnValues[2], index: evt.returnValues._itemIndex};
         break;
         case 1:
@@ -87,7 +83,9 @@ class App extends Component {
   }
 
  
-
+  /**
+   * update <table> with Items from the current ItemManager SC
+   */
   fillTableItems = async () => {
     //let address = ItemManagerContract.networks[networkId].address;
     let createdItems = document.getElementById("createdItems");
@@ -103,6 +101,12 @@ class App extends Component {
     createdItems.innerHTML = tabela;
  }
 
+  /**
+   * renders buton and action Delivery or Pay according to parameters
+   * @param {*} indexItem 
+   * @param {*} _item 
+   * @returns 
+   */
   mountButton = (indexItem, _item) =>{
     let button = "";
     switch (parseInt(_item._state)) {
@@ -118,7 +122,12 @@ class App extends Component {
     }
     return button;
   }
-
+  
+  /**
+   * 
+   * @param {*} indexState 
+   * @returns String ith corresponding State
+   */
   getState = (indexState) =>{
     let status = "";
     switch (parseInt(indexState)) {
@@ -139,7 +148,7 @@ class App extends Component {
   }
 
   /**
-   * Atualiza os valores durante digitação
+   * Update values while typing
    * @param {*} event 
    */
   handleInputChange = (event) => {
@@ -152,7 +161,7 @@ class App extends Component {
   }
 
   /**
-   * Ação do botao create
+   * Button create action
    */
   handleSubmitCreate = async() => {
     const {cost, itemName} = this.state;
@@ -162,14 +171,8 @@ class App extends Component {
 
   
   /**
-   * Ação do botao pagar
+   * Button pay action
    */
-  handleSubmitPay = async() => {
-    const {price, addressItem} = this.createdItem;
-    let result = await this.web3.eth.sendTransaction({from: this.accounts[0], to: addressItem, value: price });
-    this.atualizaHash(result.transactionHash);
-  }
-
   handleItemPay = async(_address, _price) => {
     let result = await this.web3.eth.sendTransaction({from: this.accounts[0], to: _address, value: _price });
     this.atualizaHash(result.transactionHash);
@@ -177,29 +180,26 @@ class App extends Component {
 
   
   /**
-   * Ação do botao enviar
+   * Button delivery action
    */
-  handleSubmitDeliver = async() => {
-    let result = await this.itemManagerInstance.methods.triggerDelivery(this.createdItem.index).send({from: this.accounts[0]});
-    this.atualizaHash(result.transactionHash);
-  }
-
   handleItemDeliver = async(_indexItem) => {
     let result = await this.itemManagerInstance.methods.triggerDelivery(_indexItem).send({from: this.accounts[0]});
     this.atualizaHash(result.transactionHash);
   }
 
   /**
-   * Informa Hash Hate  
+   * Inform Hash Hate  
    */
   atualizaHash = (hash) => {
     document.getElementById("transaction").innerHTML = "Hash Transação = " + hash;
   }
 
   
-
+  /**
+   * React Render Function 
+   * @returns 
+   */
   render =  () =>{
-    
     console.log("table items");
     console.log(this.tableItems);
 
@@ -245,6 +245,5 @@ class App extends Component {
   }
 }
 
-//exporta App
-//agora sim commit no branch 1
+
 export default App;
