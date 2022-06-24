@@ -12,7 +12,7 @@ module.exports = {
     ganache: {
       host: "localhost",
       port: 7545,
-      network_id: "5777"
+      network_id: "1337"
     }
   },
   compilers: {

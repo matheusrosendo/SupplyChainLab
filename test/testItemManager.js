@@ -4,7 +4,7 @@ contract("ItemManager", accounts => {
     let lastItemIndex = -1;
     let lastItemAddress = "";
     let lastItemPrice = 0;
-    //inserindo o primeiro item
+    //insert first item
     it("... sould be able to add an item", async  function(){
         const itemManagerInstance = await ItemManager.deployed();
         const itemName = "test";
@@ -14,17 +14,14 @@ contract("ItemManager", accounts => {
         lastItemIndex = parseInt(result.logs[0].args._itemIndex); 
         lastItemAddress = result.logs[0].args._address;
 
-        console.log("ItemManager address: "+ItemManager.address);
-        console.log("Item criado address: "+lastItemAddress);
-        
-        //garante que o primeiro item seja o 0
+        //first item must be 0
         assert.equal(lastItemIndex, 0, "It is not the first item, index = "+ lastItemIndex);
 
         const item = await itemManagerInstance.sv_items(0);
-        //garante que o identificador é igual ao itemName
+        //identifier must be equal itemName
         assert.equal(item._identifier, itemName, "Idetificador diferente do inserido anteriormente")
         
-        //garante que o item price seja o mesmo valor informado
+        //item price must be equal the informed price
         lastItemPrice = item._itemPrice;
         assert.equal(lastItemPrice, itemPrice, "Preço diferente do inserido anteriormente: "+lastItemPrice);
         
@@ -51,7 +48,7 @@ contract("ItemManager", accounts => {
         assert.equal(item._state, 2, " item status deve ser 2(delivered), mas retornou "+item._state);
     });
 
-    //inserindo um segundo item
+    //insert a second item
     it("... sould be able to add one more item", async  function(){
         const itemManagerInstance = await ItemManager.deployed();
         const itemName = "test2";
@@ -60,18 +57,13 @@ contract("ItemManager", accounts => {
         const result = await itemManagerInstance.createItem(itemName, itemPrice, {from: accounts[0]});
         lastItemIndex = parseInt(result.logs[0].args._itemIndex); 
         lastItemAddress = result.logs[0].args._address;
-
-        console.log("ItemManager address: "+ItemManager.address);
-        console.log("Item criado address: "+lastItemAddress);
-        
-        //garante que o segundo item seja o 1
+ 
+        //second item must be 1
         assert.equal(lastItemIndex, 1, "It is not the first item, index = "+ lastItemIndex);
 
         const item = await itemManagerInstance.sv_items(1);
-        //garante que o identificador é igual ao itemName
         assert.equal(item._identifier, itemName, "Idetificador diferente do inserido anteriormente")
         
-        //garante que o item price seja o mesmo valor informado
         lastItemPrice = item._itemPrice;
         assert.equal(lastItemPrice, itemPrice, "Preço diferente do inserido anteriormente: "+lastItemPrice);
         
