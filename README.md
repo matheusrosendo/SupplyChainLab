@@ -1,5 +1,6 @@
 # SupplyChainLab
 Blockchain Prototype - Supplay Chain Lab - Part of the course https://www.udemy.com/course/blockchain-developer/
+> :warning: **Disclaimer**: That project is for educational purposes only, it was not tested enough for production!
 
 # Screenshot
 ![alt text](https://github.com/matheusrosendo/SupplyChainLab/blob/main/client/public/supplyChainLabScreenshot.png)
@@ -23,11 +24,3 @@ A item creation and status management controll using ganache, truffle and react
 * In main folder run truffle tests: `truffle test --network ganache`  
 * Migrate smart contracts to Ganache: `truffle migrate --reset --network ganache`  
 * In client folder: `npm start`  
-
-> :warning: **Disclaimer**: That project is for educational purposes only, it was not tested enough for production!
-
-
-
-
-
-
