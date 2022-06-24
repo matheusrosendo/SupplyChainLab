@@ -24,7 +24,7 @@ A item creation and status management controll using ganache, truffle and react
 * Migrate smart contracts to Ganache: `truffle migrate --reset --network ganache`  
 * In client folder: `npm start`  
 
-
+> :warning: **Disclaimer**: That project is for educational purposes only, it was not tested enough for production!
 
 
 
